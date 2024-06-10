@@ -24,3 +24,7 @@ build/
 
 # Misc
 .DS_Store
+
+# ENV
+.env*
+!.env*.example

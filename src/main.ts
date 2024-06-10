@@ -1,21 +1,13 @@
-export enum Delays {
-  Short = 500,
-  Medium = 2000,
-  Long = 5000,
+import App from './app';
+import router from './routers';
+import env from './config/config';
+
+function main() {
+  const app = new App(router);
+  const server = app.getServer();
+  server.listen(env.port, () => {
+    console.log(`Listening to port ${env.port}`);
+  });
 }
 
-function wait(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-async function delayedHello(name: string, delay: number = Delays.Medium) {
-  await wait(delay);
-  return `Hello, ${name}`;
-}
-
-export async function greeter(name: string) {
-  const output = await delayedHello(name, Delays.Short);
-  return output;
-}
-
-greeter('hi');
+main();
