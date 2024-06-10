@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import Controller from '../interfaces/controller.interface';
 import UserNotFoundException from '../exceptions/UserNotFoundException';
 import { userService, UserService } from './user.service';
+import NotAuthorizedException from '../exceptions/NotAuthorizedException';
 
 export class UserController implements Controller {
   constructor(private userService: UserService) {}
@@ -19,7 +20,7 @@ export class UserController implements Controller {
     if (user) {
       response.json(user);
     } else {
-      next(new UserNotFoundException(userId));
+      return next(new UserNotFoundException(userId));
     }
   };
 
@@ -28,6 +29,9 @@ export class UserController implements Controller {
     response: Response,
     next: NextFunction,
   ) => {
+    if (request.user?.id != '1') {
+      return next(new NotAuthorizedException());
+    }
     const users = await this.userService.getAllUsers();
     response.json({ users });
   };

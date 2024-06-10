@@ -1,5 +1,6 @@
 import express, { Router } from 'express';
 import { errorMiddleware } from './middlewares/error.middleware';
+import { authMiddleware } from './middlewares/auth.middleware';
 
 class App {
   private app: express.Application;
@@ -20,6 +21,7 @@ class App {
   private addMiddlewares() {
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
+    this.app.use(authMiddleware);
   }
 
   private addErrorHandler() {
