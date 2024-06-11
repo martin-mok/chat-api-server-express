@@ -1,9 +1,4 @@
-import { User } from './user.interface';
-
-const users: User[] = [
-  { id: '1', name: 'user_1' },
-  { id: '2', name: 'user_2' },
-];
+import { users } from '../../fakeTestData';
 
 export class UserService {
   constructor() {}
@@ -12,7 +7,7 @@ export class UserService {
     return users.find((user) => user.id === id);
   };
 
-  getAllUsers = async () => {
+  getAll = async () => {
     return users;
   };
 }
