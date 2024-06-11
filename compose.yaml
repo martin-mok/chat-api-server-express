@@ -1,0 +1,50 @@
+services:
+  api:
+    container_name: api
+    image: api
+    build: .
+    ports:
+      - 3300:3000
+    networks:
+      - chat_demo
+    restart: unless-stopped
+    env_file:
+      - .env
+    depends_on:
+      - db
+  db:
+    restart: always
+    networks:
+      - 'chat_demo'
+    image: postgres:16.3-alpine3.20
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=chat_demo
+    ports:
+      - '25432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+  cache:
+    image: redis:6.2-alpine3.20
+    restart: always
+    networks:
+      - 'chat_demo'
+    ports:
+      - '26379:6379'
+    command: ['redis-server', '/etc/redis/redis.conf']
+    volumes:
+      - ./redis.conf:/etc/redis/redis.conf
+  redis-insight:
+    image: redislabs/redisinsight:2.50.0
+    restart: always
+    ports:
+      - '5540:5540'
+    networks:
+      - chat_demo
+
+volumes:
+  pgdata:
+networks:
+  chat_demo:
+    driver: bridge

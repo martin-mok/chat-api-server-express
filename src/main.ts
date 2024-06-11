@@ -1,6 +1,6 @@
 import App from './app';
 import router from './routers';
-import env from './config/config';
+import { configuration } from './config/config';
 
 declare module 'express' {
   export interface Request {
@@ -11,8 +11,8 @@ declare module 'express' {
 function main() {
   const app = new App(router);
   const server = app.getServer();
-  server.listen(env.port, () => {
-    console.log(`server listening to port ${env.port}`);
+  server.listen(configuration.port, () => {
+    console.log(`server listening to port ${configuration.port}`);
   });
 }
 

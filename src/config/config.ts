@@ -2,8 +2,7 @@ import { config } from 'dotenv';
 
 config({ path: `.env` });
 
-const env = {
+export const configuration = {
   port: process.env.PORT || 3200,
+  dbUrl: process.env.DB_URL || '',
 };
-
-export default env;

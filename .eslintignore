@@ -1,2 +1,4 @@
 /**/*.js
 jest.config.ts
+drizzle.config.ts
+migrate.ts

@@ -28,3 +28,10 @@ build/
 # ENV
 .env*
 !.env*.example
+
+# Drizzle
+drizzle
+migrations/meta
+
+# Redis
+redis.conf
