@@ -1,4 +1,4 @@
-import { relations, type InferSelectModel } from 'drizzle-orm';
+import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
 import { pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { userGroupSchema } from './user_group.schema';
 
@@ -14,3 +14,4 @@ export const groupRelations = relations(groupSchema, ({ many }) => ({
 }));
 
 export type Group = InferSelectModel<typeof groupSchema>;
+export type InsertGroup = InferInsertModel<typeof groupSchema>;

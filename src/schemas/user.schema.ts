@@ -1,4 +1,4 @@
-import { relations, type InferSelectModel } from 'drizzle-orm';
+import { InferSelectModel, relations } from 'drizzle-orm';
 import {
   boolean,
   pgTable,
@@ -6,6 +6,7 @@ import {
   uuid,
   varchar,
 } from 'drizzle-orm/pg-core';
+import { messageSchema } from './message.schema';
 import { userGroupSchema } from './user_group.schema';
 
 export const userSchema = pgTable('users', {
@@ -19,6 +20,7 @@ export const userSchema = pgTable('users', {
 
 export const userRelations = relations(userSchema, ({ many }) => ({
   userGroup: many(userGroupSchema),
+  message: many(messageSchema),
 }));
 
 export type User = InferSelectModel<typeof userSchema>;

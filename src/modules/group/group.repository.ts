@@ -4,15 +4,15 @@ import { groupSchema } from '../../schemas';
 
 export class GroupRepository {
   findById = async (id: string) => {
-    const user = await db.query.groupSchema.findFirst({
+    const group = await db.query.groupSchema.findFirst({
       where: eq(groupSchema.id, id),
     });
-    return user;
+    return group;
   };
 
   getAll = async () => {
-    const users = db.select().from(groupSchema);
-    return users;
+    const groups = db.select().from(groupSchema);
+    return groups;
   };
 }
 

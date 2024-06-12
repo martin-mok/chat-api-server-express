@@ -8,6 +8,13 @@
       "when": 1718210338888,
       "tag": "0000_1718210338\\_create_user_and_group.sql",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1718219187088,
+      "tag": "0001_1718219186\\_create_message.sql",
+      "breakpoints": true
     }
   ]
 }
