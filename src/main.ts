@@ -1,6 +1,7 @@
 import App from './app';
 import router from './routers';
 import { configuration } from './config/config';
+import { connection } from './utils/db';
 
 declare module 'express' {
   export interface Request {
@@ -8,7 +9,10 @@ declare module 'express' {
   }
 }
 
-function main() {
+async function main() {
+  // check db connection
+  await connection`SELECT 'testing'`;
+
   const app = new App(router);
   const server = app.getServer();
   server.listen(configuration.port, () => {

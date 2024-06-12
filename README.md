@@ -24,7 +24,10 @@ pnpm drizzle-kit push
 create migration SQLs
 
 ```bash
+# with timestamp
 pnpm drizzle-kit generate --name "$(date +%s)\_create_user.sql"
+# without timestamp
+pnpm drizzle-kit generate --name "create_user.sql"
 ```
 
 start migration
@@ -65,5 +68,6 @@ docker compose up -d --build
 
 ## Todo
 
+- add validation with zod
 - consider switching to fastify
 - consider using trpc

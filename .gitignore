@@ -31,7 +31,6 @@ build/
 
 # Drizzle
 drizzle
-migrations/meta
 
 # Redis
 redis.conf
