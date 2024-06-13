@@ -1,4 +1,4 @@
-import { eq } from 'drizzle-orm';
+import { and, eq, or } from 'drizzle-orm';
 import { messageSchema } from '../../schemas';
 import { db } from '../../utils/db';
 
@@ -15,8 +15,26 @@ export class MessageRepository {
     return messages;
   };
 
-  filterBy = async () => {
-    const messages = db.select().from(messageSchema);
+  filterBy = async (userId: string, userOrGroupId: string) => {
+    console.log(
+      'in filterBy userId:',
+      userId,
+      ',userOrGroupId:',
+      userOrGroupId,
+    );
+    const messages = db.query.messageSchema.findMany({
+      where: or(
+        and(
+          eq(messageSchema.sender, userId),
+          eq(messageSchema.receiver, userOrGroupId),
+        ),
+        and(
+          eq(messageSchema.sender, userOrGroupId),
+          eq(messageSchema.receiver, userId),
+        ),
+      ),
+      orderBy: messageSchema.createdAt,
+    });
     return messages;
   };
 }

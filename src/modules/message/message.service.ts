@@ -17,8 +17,8 @@ export class MessageService {
     return await this.messageRepository.getAll();
   };
 
-  filterBy = async () => {
-    return await this.messageRepository.getAll();
+  filterBy = async (userId: string, userOrGroupId: string) => {
+    return await this.messageRepository.filterBy(userId, userOrGroupId);
   };
 }
 

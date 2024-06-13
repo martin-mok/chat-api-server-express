@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { GroupNotFoundException } from '../../exceptions/HttpExceptions';
+import { MessageNotFoundException } from '../../exceptions/HttpExceptions';
 import Controller from '../../interfaces/controller.interface';
 import { messageService, MessageService } from './message.service';
 
@@ -16,11 +16,11 @@ export class MessageController implements Controller {
       if (!id) {
         return;
       }
-      const group = await this.messageService.findById(id);
-      if (!group) {
-        return next(new GroupNotFoundException(id));
+      const message = await this.messageService.findById(id);
+      if (!message) {
+        return next(new MessageNotFoundException(id));
       }
-      response.json(group);
+      response.json(message);
     } catch (error) {
       return next(error);
     }
@@ -28,14 +28,21 @@ export class MessageController implements Controller {
 
   getAll = async (request: Request, response: Response, next: NextFunction) => {
     try {
-      // if no request query params, return all
-      if (Object.keys(request.query).length === 0) {
-        const groups = await this.messageService.getAll();
-        return response.json({ groups });
-      }
       // filter by request query params
-      const groups = await this.messageService.filterBy();
-      return response.json({ groups });
+      const userOrGroupId = request.query.userOrGroupId as string;
+      if (userOrGroupId) {
+        const userId = request.user?.id;
+        if (!userId) return;
+        const messages = await this.messageService.filterBy(
+          userId,
+          userOrGroupId,
+        );
+        return response.json({ messages });
+      }
+
+      // if no request query params, return all
+      const messages = await this.messageService.getAll();
+      return response.json({ messages });
     } catch (error) {
       return next(error);
     }

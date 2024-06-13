@@ -1,5 +1,7 @@
 import { messageController, MessageController } from './message.controller';
 import { Router } from 'express';
+import { FindMessagesRequestSchema } from './validationSchemas/message.request.schemas';
+import { validate } from '../../middlewares/validate.middleware';
 
 class MessageRouter {
   private router: Router = Router();
@@ -9,7 +11,9 @@ class MessageRouter {
   }
 
   initRoutes = () => {
-    this.router.route('/').get(this.controller.getAll);
+    this.router
+      .route('/')
+      .get(validate(FindMessagesRequestSchema), this.controller.getAll);
     this.router.route('/:id').get(this.controller.findById);
   };
 
