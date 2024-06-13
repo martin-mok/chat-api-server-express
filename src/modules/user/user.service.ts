@@ -1,15 +1,23 @@
-import { UserNotFoundException } from '../../exceptions/HttpExceptions';
+import {
+  InternalException,
+  UserNotFoundException,
+} from '../../exceptions/HttpExceptions';
+import { User } from '../../schemas/user.schema';
 import { userRepository, UserRepository } from './user.repository';
 
 export class UserService {
   constructor(private userRepository: UserRepository) {}
 
-  findById = async (id: string) => {
+  findById = async (id: string): Promise<User> => {
     try {
-      return await this.userRepository.findById(id);
+      const user = await this.userRepository.findById(id);
+      if (!user) {
+        throw new UserNotFoundException(id);
+      }
+      return user;
     } catch (error) {
       console.error(error);
-      throw new UserNotFoundException(id);
+      throw new InternalException();
     }
   };
 

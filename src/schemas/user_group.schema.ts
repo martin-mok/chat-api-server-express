@@ -29,4 +29,4 @@ export const userGroupsRelations = relations(userGroupSchema, ({ one }) => ({
   }),
 }));
 
-export type Group = InferSelectModel<typeof userGroupSchema>;
+export type UserGroup = InferSelectModel<typeof userGroupSchema>;

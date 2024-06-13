@@ -1,10 +1,20 @@
 import { NextFunction, Request, Response } from 'express';
-import { GroupNotFoundException } from '../../exceptions/HttpExceptions';
+import {
+  ERROR_CODE,
+  GroupNotFoundException,
+  HttpException,
+  UserNotFoundException,
+} from '../../exceptions/HttpExceptions';
 import Controller from '../../interfaces/controller.interface';
 import { groupService, GroupService } from './group.service';
+import { userService, UserService } from '../user/user.service';
+import { StatusCodes } from 'http-status-codes';
 
 export class GroupController implements Controller {
-  constructor(private groupService: GroupService) {}
+  constructor(
+    private groupService: GroupService,
+    private userService: UserService,
+  ) {}
 
   findById = async (
     request: Request,
@@ -41,12 +51,28 @@ export class GroupController implements Controller {
     next: NextFunction,
   ) => {
     try {
-      const groups = await this.groupService.joinGroup(request.body);
-      response.json({ groups });
+      const userId = request.user?.id;
+      if (!userId) {
+        next(
+          new HttpException(
+            ERROR_CODE.USER_NOT_FOUND,
+            StatusCodes.NOT_FOUND,
+            'user id not found',
+          ),
+        );
+        return;
+      }
+      const user = await this.userService.findById(userId);
+      console.log('user: ', user);
+      if (!user) {
+        return next(new UserNotFoundException(userId));
+      }
+      await this.groupService.joinGroup({ userId, ...request.body });
+      response.json({ success: true });
     } catch (error) {
       return next(error);
     }
   };
 }
 
-export const groupController = new GroupController(groupService);
+export const groupController = new GroupController(groupService, userService);

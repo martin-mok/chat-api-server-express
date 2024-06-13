@@ -1,16 +1,30 @@
-import { GroupNotFoundException } from '../../exceptions/HttpExceptions';
+import {
+  GroupNotFoundException,
+  InternalException,
+} from '../../exceptions/HttpExceptions';
+import { userGroupSchema } from '../../schemas';
+import { Group } from '../../schemas/group.schema';
+import { db } from '../../utils/db';
 import { groupRepository, GroupRepository } from './group.repository';
-import { JoinGroup } from './validationSchemas/group.request.schemas';
+
+interface JoinGroup {
+  userId: string;
+  groupId: string;
+}
 
 export class GroupService {
   constructor(private groupRepository: GroupRepository) {}
 
-  findById = async (id: string) => {
+  findById = async (id: string): Promise<Group> => {
     try {
-      return await this.groupRepository.findById(id);
+      const group = await this.groupRepository.findById(id);
+      if (!group) {
+        throw new GroupNotFoundException(id);
+      }
+      return group;
     } catch (error) {
       console.error(error);
-      throw new GroupNotFoundException(id);
+      throw new InternalException();
     }
   };
 
@@ -19,7 +33,23 @@ export class GroupService {
   };
 
   joinGroup = async (data: JoinGroup) => {
-    return await this.groupRepository.getAll();
+    const { userId, groupId } = data;
+    const group = await this.findById(groupId);
+    const userGroupRelation =
+      await this.groupRepository.findUserGroupRelationByUserIdAndGroupId(
+        userId,
+        groupId,
+      );
+    if (userGroupRelation) {
+      // already joined
+      return;
+    }
+    const newUserGroupRelation = await db
+      .insert(userGroupSchema)
+      .values({ userId, groupId: group.id })
+      .returning();
+    console.log('newUserGroupRelation:', newUserGroupRelation);
+    return newUserGroupRelation;
   };
 }
 
