@@ -1,5 +1,6 @@
 import { GroupNotFoundException } from '../../exceptions/HttpExceptions';
 import { groupRepository, GroupRepository } from './group.repository';
+import { JoinGroup } from './validationSchemas/group.request.schemas';
 
 export class GroupService {
   constructor(private groupRepository: GroupRepository) {}
@@ -14,6 +15,10 @@ export class GroupService {
   };
 
   getAll = async () => {
+    return await this.groupRepository.getAll();
+  };
+
+  joinGroup = async (data: JoinGroup) => {
     return await this.groupRepository.getAll();
   };
 }

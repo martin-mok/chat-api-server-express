@@ -34,6 +34,19 @@ export class GroupController implements Controller {
       return next(error);
     }
   };
+
+  joinGroup = async (
+    request: Request,
+    response: Response,
+    next: NextFunction,
+  ) => {
+    try {
+      const groups = await this.groupService.joinGroup(request.body);
+      response.json({ groups });
+    } catch (error) {
+      return next(error);
+    }
+  };
 }
 
 export const groupController = new GroupController(groupService);

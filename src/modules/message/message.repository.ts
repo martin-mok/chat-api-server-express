@@ -1,6 +1,6 @@
 import { eq } from 'drizzle-orm';
-import { db } from '../../utils/db';
 import { messageSchema } from '../../schemas';
+import { db } from '../../utils/db';
 
 export class MessageRepository {
   findById = async (id: string) => {
@@ -11,6 +11,11 @@ export class MessageRepository {
   };
 
   getAll = async () => {
+    const messages = db.select().from(messageSchema);
+    return messages;
+  };
+
+  filterBy = async () => {
     const messages = db.select().from(messageSchema);
     return messages;
   };

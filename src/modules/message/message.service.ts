@@ -16,6 +16,10 @@ export class MessageService {
   getAll = async () => {
     return await this.messageRepository.getAll();
   };
+
+  filterBy = async () => {
+    return await this.messageRepository.getAll();
+  };
 }
 
 export const messageService = new MessageService(messageRepository);

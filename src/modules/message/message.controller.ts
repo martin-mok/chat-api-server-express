@@ -28,8 +28,14 @@ export class MessageController implements Controller {
 
   getAll = async (request: Request, response: Response, next: NextFunction) => {
     try {
-      const groups = await this.messageService.getAll();
-      response.json({ groups });
+      // if no request query params, return all
+      if (Object.keys(request.query).length === 0) {
+        const groups = await this.messageService.getAll();
+        return response.json({ groups });
+      }
+      // filter by request query params
+      const groups = await this.messageService.filterBy();
+      return response.json({ groups });
     } catch (error) {
       return next(error);
     }

@@ -1,5 +1,7 @@
+import { validate } from '../../middlewares/validate.middleware';
 import { groupController, GroupController } from './group.controller';
 import { Router } from 'express';
+import { JoinGroupRequestSchema } from './validationSchemas/group.request.schemas';
 
 class GroupRouter {
   private router: Router = Router();
@@ -10,6 +12,9 @@ class GroupRouter {
 
   initRoutes = () => {
     this.router.route('/').get(this.controller.getAll);
+    this.router
+      .route('/join')
+      .post(validate(JoinGroupRequestSchema), this.controller.joinGroup);
     this.router.route('/:id').get(this.controller.findById);
   };
 
