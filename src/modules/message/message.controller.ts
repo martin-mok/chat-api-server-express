@@ -47,6 +47,22 @@ export class MessageController implements Controller {
       return next(error);
     }
   };
+
+  send = async (request: Request, response: Response, next: NextFunction) => {
+    try {
+      const userId = request.user?.id;
+      if (!userId) return;
+      const { userOrGroupId, content } = request.body;
+      const newMessage = await this.messageService.send(
+        userId,
+        userOrGroupId as string,
+        content as string,
+      );
+      response.json({ message: newMessage });
+    } catch (error) {
+      return next(error);
+    }
+  };
 }
 
 export const messageController = new MessageController(messageService);

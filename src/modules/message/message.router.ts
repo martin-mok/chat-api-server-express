@@ -14,6 +14,7 @@ class MessageRouter {
     this.router
       .route('/')
       .get(validate(FindMessagesRequestSchema), this.controller.getAll);
+    this.router.route('/').post(this.controller.send);
     this.router.route('/:id').get(this.controller.findById);
   };
 

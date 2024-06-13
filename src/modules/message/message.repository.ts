@@ -37,6 +37,14 @@ export class MessageRepository {
     });
     return messages;
   };
+
+  send = async (sender: string, receiver: string, content: string) => {
+    const newMessage = await db
+      .insert(messageSchema)
+      .values({ sender, receiver, content })
+      .returning();
+    return newMessage;
+  };
 }
 
 export const messageRepository = new MessageRepository();

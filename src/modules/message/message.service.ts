@@ -20,6 +20,10 @@ export class MessageService {
   filterBy = async (userId: string, userOrGroupId: string) => {
     return await this.messageRepository.filterBy(userId, userOrGroupId);
   };
+
+  send = async (sender: string, receiver: string, content: string) => {
+    return await this.messageRepository.send(sender, receiver, content);
+  };
 }
 
 export const messageService = new MessageService(messageRepository);
