@@ -11,6 +11,7 @@ const config: Config = {
   },
   testRegex: '(/test/.*|(\\.|/)(test|spec))\\.(m)?ts$',
   coverageDirectory: 'coverage',
+  collectCoverage: true,
   collectCoverageFrom: [
     'src/**/*.ts',
     'src/**/*.mts',
