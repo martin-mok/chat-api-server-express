@@ -1,13 +1,12 @@
 import { NextFunction, Request, Response } from 'express';
-import Controller from '../../interfaces/controller.interface';
 import { userService, UserService } from './user.service';
 import {
   NotAuthorizedException,
   UserNotFoundException,
 } from '../../exceptions/HttpExceptions';
 
-export class UserController implements Controller {
-  constructor(private userService: UserService) {}
+export class UserController {
+  constructor(private readonly userService: UserService) {}
 
   findById = async (
     request: Request,

@@ -6,7 +6,7 @@ import { User } from '../../schemas/user.schema';
 import { userRepository, UserRepository } from './user.repository';
 
 export class UserService {
-  constructor(private userRepository: UserRepository) {}
+  constructor(private readonly userRepository: UserRepository) {}
 
   findById = async (id: string): Promise<User> => {
     try {

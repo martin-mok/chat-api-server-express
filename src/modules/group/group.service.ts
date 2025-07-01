@@ -13,7 +13,7 @@ interface JoinGroup {
 }
 
 export class GroupService {
-  constructor(private groupRepository: GroupRepository) {}
+  constructor(private readonly groupRepository: GroupRepository) {}
 
   findById = async (id: string): Promise<Group> => {
     try {

@@ -4,9 +4,9 @@ import { Router } from 'express';
 import { JoinGroupRequestSchema } from './validationSchemas/group.request.schemas';
 
 class GroupRouter {
-  private router: Router = Router();
+  private readonly router: Router = Router();
 
-  constructor(private controller: GroupController) {
+  constructor(private readonly controller: GroupController) {
     this.initRoutes();
   }
 

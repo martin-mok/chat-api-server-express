@@ -4,9 +4,9 @@ import { FindMessagesRequestSchema } from './validationSchemas/message.request.s
 import { validate } from '../../middlewares/validate.middleware';
 
 class MessageRouter {
-  private router: Router = Router();
+  private readonly router: Router = Router();
 
-  constructor(private controller: MessageController) {
+  constructor(private readonly controller: MessageController) {
     this.initRoutes();
   }
 

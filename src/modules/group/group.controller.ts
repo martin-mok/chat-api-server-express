@@ -5,15 +5,14 @@ import {
   HttpException,
   UserNotFoundException,
 } from '../../exceptions/HttpExceptions';
-import Controller from '../../interfaces/controller.interface';
 import { groupService, GroupService } from './group.service';
 import { userService, UserService } from '../user/user.service';
 import { StatusCodes } from 'http-status-codes';
 
-export class GroupController implements Controller {
+export class GroupController {
   constructor(
-    private groupService: GroupService,
-    private userService: UserService,
+    private readonly groupService: GroupService,
+    private readonly userService: UserService,
   ) {}
 
   findById = async (

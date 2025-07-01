@@ -2,9 +2,9 @@ import { Router } from 'express';
 import { userController, UserController } from './user.controller';
 
 class UserRouter {
-  private router: Router = Router();
+  private readonly router: Router = Router();
 
-  constructor(private controller: UserController) {
+  constructor(private readonly controller: UserController) {
     this.initRoutes();
   }
 

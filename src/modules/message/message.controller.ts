@@ -1,10 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
 import { MessageNotFoundException } from '../../exceptions/HttpExceptions';
-import Controller from '../../interfaces/controller.interface';
 import { messageService, MessageService } from './message.service';
 
-export class MessageController implements Controller {
-  constructor(private messageService: MessageService) {}
+export class MessageController {
+  constructor(private readonly messageService: MessageService) {}
 
   findById = async (
     request: Request,

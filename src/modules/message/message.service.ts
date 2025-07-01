@@ -2,7 +2,7 @@ import { GroupNotFoundException } from '../../exceptions/HttpExceptions';
 import { messageRepository, MessageRepository } from './message.repository';
 
 export class MessageService {
-  constructor(private messageRepository: MessageRepository) {}
+  constructor(private readonly messageRepository: MessageRepository) {}
 
   findById = async (id: string) => {
     try {
